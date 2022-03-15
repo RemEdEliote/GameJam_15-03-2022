@@ -7,11 +7,15 @@ public class DustScript : MonoBehaviour
 
     void Start()
     {
+        
+        
         StartCoroutine(DustLifeTime());
     }
 
     IEnumerator DustLifeTime()
     {
+        
+        
         float lifeTimer = Random.Range(10, 1);
 
         yield return new WaitForSeconds(lifeTimer); 
@@ -19,5 +23,7 @@ public class DustScript : MonoBehaviour
         Debug.Log("bidul");
         
         Destroy(this.gameObject);
+        
+        
     }
 }

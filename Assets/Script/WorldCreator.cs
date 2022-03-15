@@ -18,14 +18,18 @@ public class WorldCreator : MonoBehaviour
 
     [SerializeField] private GameObject _fioulGameObject;
     [SerializeField] private GameObject _dustPrefab;
+    [SerializeField] private GameObject _planetPrefab; 
+    
+
 
 
 
     void Start()
     {
-        gameObject.transform.position = new Vector3(-200, 0, 0);
+        
         StartCoroutine(FioulDelayAndSpawn());
-        StartCoroutine(DustDelayAndSpawn()); 
+        StartCoroutine(DustDelayAndSpawn());
+        StartCoroutine(PlanetDelayAndSpawn());
     }
     void FixedUpdate()
     {
@@ -44,35 +48,57 @@ public class WorldCreator : MonoBehaviour
     IEnumerator FioulDelayAndSpawn() // Delay and spown of FioulSpawn with random nomber
     {
 
-        while (true)
+        while (gameRunBool)
         {
-            Vector3 _randomSpawnPosition = new Vector3(gameObject.transform.position.x, gameObject.transform.position.y,
+            
+            Vector3 _randomSpawnPosition = new Vector3(gameObject.transform.position.x+600f, gameObject.transform.position.y,
                 Random.Range(-8, 8));
 
             float _randomSpawnTime = Random.Range(2f, 4f);
 
 
             GameObject _fioul = Instantiate(_fioulGameObject, _randomSpawnPosition, Quaternion.identity);
+            
+            
         
             yield return new WaitForSeconds(_randomSpawnTime);
         }
     }
     
-    IEnumerator DustDelayAndSpawn() // Delay and spown of dust for a space contemplative experience
+    IEnumerator DustDelayAndSpawn() // Delay and spawn of dust for a space contemplative experience
     {
 
-        while (true)
+        while (gameRunBool)
         {
-            Vector3 _randomSpawnPosition = new Vector3(gameObject.transform.position.x, Random.Range(-100, 100),
-                Random.Range(-100, 100));
+            Vector3 _randomSpawnPosition = new Vector3(gameObject.transform.position.x, Random.Range(-300, 300),
+                Random.Range(-300, 300));
 
             float _randomSpawnTime = Random.Range(0.01f, 0.1f);
 
 
             GameObject _dust = Instantiate(_dustPrefab, _randomSpawnPosition, Quaternion.identity);
+            _dust.transform.localScale =
+                new Vector3(Random.Range(0.1f, 1f), Random.Range(0.1f, 1f), Random.Range(0.1f, 1f));
         
             yield return new WaitForSeconds(_randomSpawnTime);
         }
     }
- 
+
+    IEnumerator PlanetDelayAndSpawn()
+    {
+        while (gameRunBool)
+        {
+            Vector3 _randomSpawnPosition = new Vector3(gameObject.transform.position.x, Random.Range(Random.Range(-1000, -300), Random.Range(300, 1000)), Random.Range(Random.Range(-1000, -300), Random.Range(300, 1000)));
+            
+            float _randomSpawnTime = Random.Range(5, 20);
+            
+            GameObject _newPlanet = Instantiate(_planetPrefab, _randomSpawnPosition, Quaternion.identity);
+           
+           // _newPlanet.transform.localScale = new Vector3(Random.Range(0.1f, 1f), Random.Range(0.1f, 1f), Random.Range(0.1f, 1f));
+        
+            yield return new WaitForSeconds(_randomSpawnTime);
+        }
+    }
+     
+    
 }
