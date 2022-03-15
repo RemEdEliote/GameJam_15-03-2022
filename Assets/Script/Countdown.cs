@@ -11,20 +11,32 @@ public class Countdown : MonoBehaviour
     public bool countDonwnOn = true;
     void Start()
     {
-        StartCoroutine(Timer);
+        StartCoroutine(timer());
     }
 
     // Update is called once per frame
     void Update()
     {
-        IEnumerator timer()
+        
+    }
+
+     IEnumerator timer()
         {
             while (time>0)
             {
                 time--;
-                yield return WaitForSeconds (1f);
                 GetComponent<TextMeshProUGUI>().text = "" + time;
+                yield return new WaitForSeconds(1f);
             }
         }
-    }
+     private void OnTriggerEnter(Collider other)
+     {
+         if (other.gameObject.CompareTag("Miam"))
+         {
+             // _scoreValue= _scoreValue+ 10;
+             // scoreText.text = "temps restant : " + _scoreValue;
+            
+         } 
+     }
 }
+
