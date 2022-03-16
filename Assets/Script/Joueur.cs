@@ -15,6 +15,10 @@ public class Joueur : MonoBehaviour
     public TextMeshProUGUI scoretime;
     private int _scoreValue;
 
+
+    private float BoostSpeed = 0.1f;
+    private int BoostTime = 15;
+
     void Start()
     {
         
@@ -28,9 +32,18 @@ public class Joueur : MonoBehaviour
                 Mathf.Clamp(transform.position.z + Input.GetAxis("Horizontal") * speed, minPos, maxPos));
         }
 
-        transform.position += transform.up * flySpeed;
-        
-        
+
+        if (Input.GetKey(KeyCode.Space) && BoostTime>0)
+        {
+            transform.position += transform.up * (flySpeed + BoostSpeed);
+            StartCoroutine(SpeedBoostIncrease()); 
+            
+
+        }
+        else
+        {
+            transform.position += transform.up * flySpeed;
+        }
     }
 
     private void OnTriggerEnter(Collider other)
@@ -44,5 +57,25 @@ public class Joueur : MonoBehaviour
             Destroy((other.gameObject));
         } 
     }
-   
+
+    private IEnumerator SpeedBoostIncrease()
+    {
+        if (BoostTime>13)
+        {
+             BoostSpeed += 0.05f; 
+        }
+        else if (BoostTime>8)
+        {
+            BoostSpeed += 0.06f;
+        }
+        else if (BoostTime>5)
+        {
+            BoostSpeed += 0.08f;
+        }
+    
+        BoostTime--;
+        
+        yield return new WaitForSeconds(1f); 
+    } 
+
 }
